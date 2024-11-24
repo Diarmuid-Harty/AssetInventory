@@ -1,0 +1,13 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/
+
+# OS Files (macOS specific)
+.DS_Store
+
+# Log files
+*.log
