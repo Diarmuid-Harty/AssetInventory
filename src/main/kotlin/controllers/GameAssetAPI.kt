@@ -1,7 +1,5 @@
-package Controllers
-
-import Models.GameAsset
-import Utils.readNextLine
+package controllers
+import models.GameAsset
 
 class GameAssetAPI() {
 
@@ -9,7 +7,11 @@ class GameAssetAPI() {
     private var assetIDCounter = 0
 
     fun createAsset(asset: GameAsset): Boolean {
+        asset.assetID = ++assetIDCounter
         return assetList.add(asset)
     }
+
+
+
 
 }

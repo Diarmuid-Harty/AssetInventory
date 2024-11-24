@@ -1,11 +1,11 @@
-
-import Utils.*
-import Controllers.GameAssetAPI
-import Models.GameAsset
-import java.lang.System.exit
+import utils.*
+import models.*
+import controllers.GameAssetAPI
+import controllers.AssetFileLinkAPI
 import kotlin.system.exitProcess
 
 val GameAssetAPI = GameAssetAPI()
+val AssetFileLinkAPI = AssetFileLinkAPI()
 
 fun main() {
     runMenu()
@@ -21,6 +21,8 @@ fun mainMenu(): Int {
     |  | Main Menu                |  
     |  |                          | 
     |  |  1) Create Asset         |
+    |  |  2) Create file links    |
+    |  |                          |
     |  |                          |
     |  |--------------------------|
     |  |  0) Exit                 |
@@ -35,8 +37,8 @@ fun runMenu() {
     do {
         val input = mainMenu()
         when (input) {
-            1 -> collectAssetDetails() //
-            //2 -> GameAssetAPI.printList() // print Assets
+            1 -> collectAssetDetails()
+            2 -> collectAssetFileLinkDetails()
 
             0 -> exitApp()
             else -> println("Error: Please enter a Number within the range")
@@ -51,21 +53,36 @@ fun collectAssetDetails() {
     val assetDescription = readNextLine("Enter asset description: ")
     val assetType = readNextLine("Enter asset type: ")
 
-    // temp id assigned -- add self iterating id
     val isAdded = GameAssetAPI.createAsset(GameAsset(assetID = 0, assetName, assetDescription, assetType))
+    confirmAdd(isAdded)
+}
 
+
+// Will need unique identifier input for correct asset, add a persistent counter later
+// add file path logic, (OS Dependant)
+fun collectAssetFileLinkDetails() {
+    val fileName = readNextLine("Enter file name as it is named in its folder.")
+    val fileDescription = readNextLine("Enter file description")
+
+    val isAdded = AssetFileLinkAPI.createAssetFileLink(AssetFileLink(fileID = 0, fileName, fileDescription))
+    confirmAdd(isAdded)
+}
+
+fun confirmAdd(isAdded: Boolean) {
     if (isAdded) {
-        println("""
-            .------------------------------.
-            |   Asset Added Successfully   |
-            '------------------------------'
+        println(
+            """
+            .------------------------.
+            |   Added Successfully   |
+            '------------------------'
         """.trimIndent()
         )
     } else {
-        println("""
-            .----------------------.
-            |   Add Asset Failed   |
-            '----------------------'
+        println(
+            """
+            .----------------.
+            |   Add Failed   |
+            '----------------'
         """.trimIndent()
         )
     }

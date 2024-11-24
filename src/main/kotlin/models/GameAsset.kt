@@ -1,4 +1,4 @@
-package Models
+package models
 
 data class GameAsset(
     var assetID: Int,
