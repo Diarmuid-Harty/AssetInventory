@@ -17,13 +17,14 @@ fun mainMenu(): Int {
         """
     |  .--------------------------.
     |  |    Game Asset Manager    |
-    |  | -------------------------|
+    |  |--------------------------|
     |  | Main Menu                |  
     |  |                          | 
     |  |  1) Create Asset         |
     |  |  2) Create file links    |
+    |  |  3) List Data            |
     |  |                          |
-    |  |                          |
+    |  |  99) Populate Lists      |
     |  |--------------------------|
     |  |  0) Exit                 |
     |  `--------------------------'
@@ -39,7 +40,9 @@ fun runMenu() {
         when (input) {
             1 -> collectAssetDetails()
             2 -> collectAssetFileLinkDetails()
+            3 -> listItems()
 
+            99 -> populateArrays()
             0 -> exitApp()
             else -> println("Error: Please enter a Number within the range")
         }
@@ -72,20 +75,55 @@ fun confirmAdd(isAdded: Boolean) {
     if (isAdded) {
         println(
             """
-            .------------------------.
-            |   Added Successfully   |
-            '------------------------'
-        """.trimIndent()
+         |  .------------------------.
+         |  |   Added Successfully   |
+         |  '------------------------'
+        """.trimMargin()
         )
     } else {
         println(
             """
-            .----------------.
-            |   Add Failed   |
-            '----------------'
-        """.trimIndent()
+         |  .----------------.
+         |  |   Add Failed   |
+         |  '----------------'
+        """.trimMargin()
         )
     }
+}
+
+fun listItems() {
+    println(
+        """
+            |  .--------------------------.
+            |  |   Choose what to list    |
+            |  |--------------------------|
+            |  |   1) Assets              |
+            |  |   2) Files               |
+            |  `--------------------------'
+    """.trimMargin()
+    )
+    var input = readNextInt("\n> ")
+
+    when (input) {
+        1 -> GameAssetAPI.listAssets()
+        2 -> AssetFileLinkAPI.listFiles()
+    }
+}
+
+// populate arrays for testing
+fun populateArrays() {
+    GameAssetAPI.createAsset(GameAsset(0, "Axe", "A chopping tool.", "Tool"))
+    GameAssetAPI.createAsset(GameAsset(0, "BMW Coupe", "A powerful car with a high top speed.", "Vehicle"))
+    GameAssetAPI.createAsset(GameAsset(0, "Bandage", "A sterile wrap for dressing wounds.", "Medical"))
+    GameAssetAPI.createAsset(GameAsset(0, "Rifle", "A precision hunting rifle.", "RangedWeapon"))
+    GameAssetAPI.createAsset(GameAsset(0, "Wooden Plank", "A plank of wood, used for construction.", "Material"))
+
+    AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Axe 3D Model", "High res axe model"))
+    AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "BMW Coupe Engine Sound", "BMW engine sound file"))
+    AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Bandage Texture", "Texture file for Bandage"))
+    AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Rifle Physics Properties", "XML Containing handling and bullet physics fo hungitng rifle"))
+    AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Wooden Plank Thumbnail", "Low res wood plank thumbnail"))
+
 }
 
 fun exitApp() {

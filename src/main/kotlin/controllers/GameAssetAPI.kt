@@ -1,4 +1,5 @@
 package controllers
+
 import models.GameAsset
 
 class GameAssetAPI() {
@@ -11,7 +12,37 @@ class GameAssetAPI() {
         return assetList.add(asset)
     }
 
+    fun listAssets() {
+        if (assetList.isNotEmpty()) {
+            println("""
+                |  ,---------------------------------
+                |  | ASSETS
+            """.trimMargin()
+            )
+            assetList.forEach { asset ->
+                println(
+                    """
+                 |  |---------------------------------
+                 |  |ID: ${asset.assetID} | Name: ${asset.assetName}
+                """.trimMargin()
+                )
+            }
+            println("""
+                |  `---------------------------------
+                
+            """.trimMargin())
+        } else {
+            println("")
 
+            println(
+                """
+             |  .------------------------.
+             |  |     No Assets Found    |
+             |  '------------------------'
+            """.trimMargin()
+            )
+        }
+    }
 
 
 }
