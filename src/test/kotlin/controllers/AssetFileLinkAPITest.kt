@@ -37,4 +37,20 @@ class AssetFileLinkAPITest {
             }
         }
 
+   /*
+   Doesn't work due to needing to input confirm delete
+   @Test
+    fun `test delete file from array`() {
+        assertEquals(5, AssetFileLinkAPI.linkedFileListSize())
+        AssetFileLinkAPI.deleteFileFromArray(1)
+        assertEquals(4, AssetFileLinkAPI.linkedFileListSize())
+    } */
+
+    @Test
+    fun `delete file outside range should not delete anything`() {
+        assertEquals(5, AssetFileLinkAPI.linkedFileListSize())
+        AssetFileLinkAPI.deleteFileFromArray(10)
+        assertEquals(5, AssetFileLinkAPI.linkedFileListSize())
+    }
+
 }

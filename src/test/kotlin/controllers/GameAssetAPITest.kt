@@ -36,4 +36,20 @@ class GameAssetAPITest {
         }
     }
 
+    /*
+   Doesn't work due to needing to input confirm delete
+   @Test
+    fun `test delete asset from array`() {
+        assertEquals(5, GameAssetAPI.assetListSize())
+        GameAssetAPI.deleteAssetFromArray(1)
+        assertEquals(4, GameAssetAPI.assetListSize())
+    } */
+
+    @Test
+    fun `delete asset outside range should not delete anything`() {
+        assertEquals(5, GameAssetAPI.assetListSize())
+        GameAssetAPI.deleteAssetFromArray(10)
+        assertEquals(5, GameAssetAPI.assetListSize())
+    }
+
 }

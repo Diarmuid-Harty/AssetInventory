@@ -7,6 +7,7 @@ import kotlin.system.exitProcess
 val GameAssetAPI = GameAssetAPI()
 val AssetFileLinkAPI = AssetFileLinkAPI()
 
+
 fun main() {
     runMenu()
 }
@@ -23,6 +24,8 @@ fun mainMenu(): Int {
     |  |  1) Create Asset         |
     |  |  2) Create file links    |
     |  |  3) List Data            |
+    |  |  4) Delete Data          |
+    |  |                          |
     |  |                          |
     |  |  99) Populate Lists      |
     |  |--------------------------|
@@ -36,11 +39,12 @@ fun mainMenu(): Int {
 // Mediates menu functionality
 fun runMenu() {
     do {
-        val input = mainMenu()
-        when (input) {
+        val choice = mainMenu()
+        when (choice) {
             1 -> collectAssetDetails()
             2 -> collectAssetFileLinkDetails()
             3 -> listItems()
+            4 -> deleteItem()
 
             99 -> populateArrays()
             0 -> exitApp()
@@ -48,6 +52,7 @@ fun runMenu() {
         }
     } while (true)
 }
+
 
 // Collects the asset information from user and builds the asset object
 // add unique identifier, figure out how to synchronise it to the assetFileLink object
@@ -91,23 +96,57 @@ fun confirmAdd(isAdded: Boolean) {
     }
 }
 
+
+// figure out?????????
+
 fun listItems() {
+    val title = "  Choose what to list  "
+    chooseType(title, true)
+    println("Enter the ID number for the object you want to select")
+}
+
+fun deleteItem() {
+    val title = " Choose type to delete "
+    val input = chooseType(title, true)
+
+    println("Enter the ID number for the item you would like to delete")
+    val itemToDelete = readNextInt("\n > ")
+    if (input == 1) {
+        if (GameAssetAPI.assetIDRange(itemToDelete)) {
+            GameAssetAPI.deleteAssetFromArray(itemToDelete)
+        } else GameAssetAPI.noAssetFound()
+    } else if (input == 2) {
+        if (AssetFileLinkAPI.fileIDRange(itemToDelete)) {
+            AssetFileLinkAPI.deleteFileFromArray(itemToDelete)
+        } else {
+            AssetFileLinkAPI.noFileFound()
+        }
+    } else {
+        println("Please choose either 1 or 2")
+    }
+}
+
+
+fun chooseType(title: String, triggerListByType: Boolean): Int {
     println(
         """
             |  .--------------------------.
-            |  |   Choose what to list    |
+            |  | $title  |
             |  |--------------------------|
-            |  |   1) Assets              |
-            |  |   2) Files               |
+            |  | 1) Assets                |
+            |  | 2) Files                 |
             |  `--------------------------'
     """.trimMargin()
     )
-    var input = readNextInt("\n> ")
+    val type = readNextInt("\n > ")
 
-    when (input) {
-        1 -> GameAssetAPI.listAssets()
-        2 -> AssetFileLinkAPI.listFiles()
+    if (triggerListByType) {
+        when (type) {
+            1 -> GameAssetAPI.listAssets()
+            2 -> AssetFileLinkAPI.listFiles()
+        }
     }
+    return type
 }
 
 // populate arrays for testing
@@ -121,9 +160,8 @@ fun populateArrays() {
     AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Axe 3D Model", "High res axe model"))
     AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "BMW Coupe Engine Sound", "BMW engine sound file"))
     AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Bandage Texture", "Texture file for Bandage"))
-    AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Rifle Physics Properties", "XML Containing handling and bullet physics fo hungitng rifle"))
+    AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Rifle Physics Properties", "XML Containing handling and bullet physics fo hunting rifle"))
     AssetFileLinkAPI.createAssetFileLink(AssetFileLink(0, "Wooden Plank Thumbnail", "Low res wood plank thumbnail"))
-
 }
 
 fun exitApp() {
