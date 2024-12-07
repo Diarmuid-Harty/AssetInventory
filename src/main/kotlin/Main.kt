@@ -58,6 +58,7 @@ fun runMenu() {
             8 -> loadAll()
             9 -> saveAll()
             0 -> exitApp()
+            99 -> populateArrays()
             else -> println("Error: Please enter a Number within the range")
         }
     } while (true)
