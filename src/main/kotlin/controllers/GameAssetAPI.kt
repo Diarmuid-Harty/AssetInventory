@@ -2,9 +2,13 @@ package controllers
 
 import models.GameAsset
 import utils.readNextInt
+import persistence.Serializer
+import persistence.JSONSerializer
+import persistence.XMLSerializer
 
-class GameAssetAPI() {
+class GameAssetAPI(serializerType: Serializer) {
 
+    private var serializer: Serializer = serializerType
     private var assetList = ArrayList<GameAsset>()
     private var assetIDCounter = 0
 
@@ -95,4 +99,14 @@ class GameAssetAPI() {
         )
     }
 
+    @Throws(Exception::class)
+    fun loadAssets() {
+        assetList = serializer.read() as ArrayList<GameAsset>
+        assetIDCounter = assetList.maxOfOrNull { it.assetID } ?: 0
+    }
+
+    @Throws(Exception::class)
+    fun saveAssets() {
+        serializer.write(assetList)
+    }
 }

@@ -1,14 +1,15 @@
 package controllers
 
 import models.AssetFileLink
+import models.GameAsset
+import persistence.Serializer
 import utils.readNextInt
 
-class AssetFileLinkAPI {
+class AssetFileLinkAPI (serializerType: Serializer){
 
+    private var serializer: Serializer = serializerType
     private var linkedFileList = ArrayList<AssetFileLink>()
     private var linkedFileIDCounter = 0
-
-    //TODO Add Link to gameAsset ID
 
     fun createAssetFileLink(assetLink: AssetFileLink): Boolean {
         assetLink.fileID = ++linkedFileIDCounter
@@ -91,5 +92,16 @@ class AssetFileLinkAPI {
              |  '-----------------------'
             """.trimMargin()
         )
+    }
+
+    @Throws(Exception::class)
+    fun loadFiles() {
+        linkedFileList = serializer.read() as ArrayList<AssetFileLink>
+        linkedFileIDCounter = linkedFileList.maxOfOrNull { it.fileID } ?: 0
+    }
+
+    @Throws(Exception::class)
+    fun saveFiles() {
+        serializer.write(linkedFileList)
     }
 }
