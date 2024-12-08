@@ -77,8 +77,7 @@ fun collectAssetDetails() {
 }
 
 
-// Will need unique identifier input for correct asset, add a persistent counter later
-// add file path logic, (OS Dependant)
+// collects information on the file
 fun collectAssetFileLinkDetails() {
     var loop: Int = 1
 
@@ -116,12 +115,14 @@ fun confirmAdd(isAdded: Boolean) {
     }
 }
 
+// lists all items in the chosen category
 fun listItems() {
     val title = "  Choose what to list  "
     chooseType(title, true)
     println("Enter the ID number for the object you want to select")
 }
 
+// deletes a selected item
 fun deleteItem() {
     val title = " Choose type to delete "
     val input = chooseType(title, true)
@@ -143,6 +144,7 @@ fun deleteItem() {
     }
 }
 
+// choose between type
 fun chooseType(title: String, triggerListByType: Boolean): Int {
     println(
         """
@@ -173,6 +175,7 @@ fun saveAll() {
     AssetFileLinkAPI.saveFiles()
 }
 
+// attempt at providing choice of save format
 fun getFileType(): String {
     var chosenFileType: String = ""
     var fileType: Int
